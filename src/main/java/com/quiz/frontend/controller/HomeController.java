@@ -43,6 +43,7 @@ public class HomeController {
 
   private Quiz quizData = new Quiz("category name", 2);
   @GetMapping("/create")
+  @PostMapping("/create")
   public String helloWorld(Model model){
       model.addAttribute("gameData", quizData);
       model.addAttribute("game", new Game());
@@ -50,19 +51,38 @@ public class HomeController {
   }
   @PostMapping("/game")
   public String gameSubmit(@ModelAttribute Game game, Model model, HttpServletResponse response) {
-    System.out.printf("FORM getCategoryName" + " " + game.getCategoryName());
-    Cookie cookie = new Cookie("gameCategory", game.getCategoryName());
-    cookie.setMaxAge(-1);
-    cookie.setHttpOnly(true);
-    response.addCookie(cookie);
+    System.out.printf("FORM -- getCategoryName " + " " + game.getCategoryName());
+    System.out.printf("FORM --- getGameMode " + " " + game.getGameMode());
+    System.out.printf("FORM --- getGamePlayers " + " " + game.getGamePlayers());
+    
+    Cookie gameCategoryCookie = new Cookie("gameCategory", game.getCategoryName());
+    gameCategoryCookie.setMaxAge(-1);
+    gameCategoryCookie.setHttpOnly(true);
+
+    Cookie gameModeCookie = new Cookie("gameMode", game.getGameMode());
+    gameModeCookie.setMaxAge(-1);
+    gameModeCookie.setHttpOnly(true);
+    response.addCookie(gameModeCookie);
+    response.addCookie(gameModeCookie);
+
+    Cookie gamePlayersCookie = new Cookie("gamePlayers", String.valueOf(game.getGamePlayers()));
+    gamePlayersCookie.setMaxAge(-1);
+    gamePlayersCookie.setHttpOnly(true);
+    response.addCookie(gamePlayersCookie);
+    response.addCookie(gamePlayersCookie);
+
     return "redirect:/lobby";
   }
 
   @GetMapping("/lobby")
   public String gameSubmit(HttpServletRequest request, Model model) {
     final Optional<String> gameCategory = readServletCookie(request, "gameCategory");
+    final Optional<String> gameMode = readServletCookie(request, "gameMode");
+    final Optional<String> gamePlayers = readServletCookie(request, "gamePlayers");
     if(gameCategory.isEmpty()) return "redirect:/home";
+    model.addAttribute("gameMode", gameMode);
     model.addAttribute("gameCategory", gameCategory);
+    model.addAttribute("gamePlayers", gamePlayers);
     return "lobby";
   }
 }

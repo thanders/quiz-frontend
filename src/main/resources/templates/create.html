@@ -8,17 +8,41 @@
         <meta name="description" content="Homepage for the Quiz App">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Quiz App Home</title>
+
     </head>
-    <body>
+    <body onload="javascript:SomeFunction()">
+        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
         <h1>Create Game</h1>
         <h2>Players</h2>
-        <div>
-        
-        </div>
-        <div id="home-category-container">
-            <h2>Quiz Category</h2>
-            <div id="home-category-form-container">
-                <form action="#" th:action="@{/game}" th:object="${game}" method="post">
+        <form action="#" th:action="@{/game}" th:object="${game}" method="post">
+            <div>
+                <label for="participants_id">
+                    <input type="radio" id="game_mode_id" name="game_mode" th:field="*{gameMode}" value="SinglePlayer">
+                    Single-player
+                </label>
+                <label for="participants_id">
+                    <input type="radio" id="game_mode_id" name="game_mode" th:field="*{gameMode}" value="Multiplayer">
+                    Multi-player
+                </label>
+                <div class="slidecontainer">
+                <label for="myRange">Number of Players</label>
+                    <input
+                        th:field="*{gamePlayers}"
+                        th:value="${gamePlayers}"
+                        type="range"
+                        min="1"
+                        max="100"
+                        class="slider"
+                        id="myRange"
+                        oninput="this.nextElementSibling.value = this.value"
+                    >
+                    <output name="gamePlayerOutput" for="myRange"></output>
+                </div>
+                
+            </div>
+            <div id="home-category-container">
+                <h2>Quiz Category</h2>
+                <div id="home-category-form-container">
                     <p>Please select the category:</p>
                     <div id="flex-wrapper new" class="flex-container">
                         <div>
@@ -42,8 +66,8 @@
                     </div>
                     <br><br>
                     <input type="submit" value="Submit">
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </body>
 </html>

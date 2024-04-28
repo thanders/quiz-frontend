@@ -17,7 +17,15 @@
                     <b>Category</b>
                 </span>
                 <span th:text="${gameCategory.get()}">
-                    Category Not Found
+                    Category - Not Found
+                </span>
+                <span th:text="${gameMode.get()}">
+                    Game Mode - Not Found
+                </span>
+            </div>
+            <div id='game-summary-players'>
+                <span th:text="${gamePlayers.get()}">
+                    Players - Not Found
                 </span>
             </div>
         </div>
