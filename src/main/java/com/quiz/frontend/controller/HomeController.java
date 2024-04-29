@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import com.quiz.frontend.dto.Quiz;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
@@ -50,7 +51,15 @@ public class HomeController {
       return "create";
   }
   @PostMapping("/game")
-  public String gameSubmit(@ModelAttribute Game game, Model model, HttpServletResponse response) {
+  public String gameSubmit(
+    @Valid @ModelAttribute Game game,
+    BindingResult result,
+    Model model,
+    HttpServletResponse response
+    ) {
+      if (result.hasErrors()) {
+        return "create";
+    }
     System.out.printf("FORM -- getCategoryName " + " " + game.getCategoryName());
     System.out.printf("FORM --- getGameMode " + " " + game.getGameMode());
     System.out.printf("FORM --- getGamePlayers " + " " + game.getGamePlayers());

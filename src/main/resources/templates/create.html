@@ -15,6 +15,7 @@
         <h1>Create Game</h1>
         <h2>Players</h2>
         <form action="#" th:action="@{/game}" th:object="${game}" method="post">
+            <h3>Game Mode</h3>
             <div>
                 <label for="participants_id">
                     <input type="radio" id="game_mode_id" name="game_mode" th:field="*{gameMode}" value="SinglePlayer">
@@ -22,8 +23,14 @@
                 </label>
                 <label for="participants_id">
                     <input type="radio" id="game_mode_id" name="game_mode" th:field="*{gameMode}" value="Multiplayer">
-                    Multi-player
+                    Multiplayer
                 </label>
+                <p
+                    th:if="${#fields.hasErrors('gameMode')}"
+                    th:class="${#fields.hasErrors('gameMode')}? error"
+                >
+                    Please select a game mode
+                </p>
                 <div class="slidecontainer">
                 <label for="myRange">Number of Players</label>
                     <input
@@ -37,6 +44,12 @@
                         oninput="this.nextElementSibling.value = this.value"
                     >
                     <output name="gamePlayerOutput" for="myRange"></output>
+                    <p
+                        th:if="${#fields.hasErrors('gamePlayers')}"
+                        th:class="${#fields.hasErrors('gamePlayers')}? error"
+                    >
+                        Invalid number of players
+                    </p>
                 </div>
                 
             </div>
@@ -63,6 +76,12 @@
                                 Politics
                             </label>
                         </div>
+                        <p
+                            th:if="${#fields.hasErrors('categoryName')}"
+                            th:class="${#fields.hasErrors('categoryName')}? error"
+                        >
+                            Please select a game mode
+                        </p>
                     </div>
                     <br><br>
                     <input type="submit" value="Submit">

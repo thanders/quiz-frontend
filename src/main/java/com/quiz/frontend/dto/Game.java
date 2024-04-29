@@ -1,11 +1,24 @@
 package com.quiz.frontend.dto;
 
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
+
 public class Game {
+     final int maxPlayers = 1;
+
+    @NotEmpty
     public String categoryName = "";
+
+    @NotEmpty
     public String gameMode = "";
+
+    @Nonnull
     public String gameType = "";
-    public Integer gamePlayers = 0;
-    public Integer questionsNumber = 0;
+
+    @Max(maxPlayers)
+    public int gamePlayers = 0;
+    public int questionsNumber = 0;
     public String type = "quiz";
 
     public Game() {
